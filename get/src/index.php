@@ -9,7 +9,7 @@
 
 </pre>
 
-<h3> flag is in /flag.txt </h3>
+<h3> flag is in flag.txt </h3>
 <h3> tip!!!!--->file </h3>
 <?php
 $file = isset($_GET['file']);
