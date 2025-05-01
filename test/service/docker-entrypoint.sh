@@ -30,3 +30,4 @@ chown root:root /root/flag.txt
 
 
 exec "$@"
+

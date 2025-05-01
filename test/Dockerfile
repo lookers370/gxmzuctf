@@ -2,7 +2,8 @@ FROM ctftraining/base_image_nginx_mysql_php_73
 
 # 安装必要的软件包
 RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.ustc.edu.cn/g' /etc/apk/repositories  &&\
-    apk add --update --no-cache nginx bash
+    apk add --update --no-cache bash
+
 
 
 RUN rm -r /var/www/html/index.php && \

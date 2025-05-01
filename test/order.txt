@@ -1,3 +1,0 @@
-sudo docker build -t test-1 -n test-1  --network=host .
-sudo docker run -itd --restart=always  -p 80:80  test-1:latest
-sudo dokcer exec -it id /bin/bash 
