@@ -4,7 +4,16 @@ FROM ctftraining/base_image_nginx_mysql_php_73
 RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.ustc.edu.cn/g' /etc/apk/repositories  &&\
     apk add --update --no-cache bash
 
+# 创建用户并设置密码
+RUN adduser -D lookers && \
+    echo "lookers:admin123" | chpasswd && \
+    # 配置 sudo 权限
+    echo 'lookers ALL=(root) NOPASSWD: /usr/bin/gcc' > /etc/sudoers.d/lookers && \
+    chmod 0440 /etc/sudoers.d/lookers
 
+
+# 修改 www-data 用户的 Shell 为 /bin/bash
+RUN sed -i 's|^www-data:\(.*\):/sbin/nologin$|www-data:\1:/bin/bash|' /etc/passwd
 
 RUN rm -r /var/www/html/index.php && \
     rm -rf /tmp/* && \
