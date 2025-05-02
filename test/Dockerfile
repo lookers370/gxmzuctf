@@ -1,17 +1,26 @@
 FROM ctftraining/base_image_nginx_mysql_php_73
 
 # 安装必要的软件包
-RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.ustc.edu.cn/g' /etc/apk/repositories  &&\
-    apk add --update --no-cache bash gcc
+RUN sed -i \
+    -e 's/dl-cdn.alpinelinux.org/mirrors.ustc.edu.cn/g' \
+    -e 's/#\(.*community\)/\1/' \
+    /etc/apk/repositories && \
+    apk update && \
+    apk add --no-cache \
+    gcc \
+    bash  \
+    sudo \
+    shadow && \
+    # 安装后立即清理缓存
+    rm -rf /var/cache/apk/*
 
 #创建lookers用户
-RUN addgroup gcc_users
-RUN adduser -D -h /home/lookers -s /bin/bash -G gcc_users lookers 
+RUN adduser -D -h /home/lookers -s /bin/bash  lookers 
 RUN echo 'lookers:admin123' | chpasswd
 RUN chmod 4755 /bin/su
 
-RUN chown root:gcc_users /usr/bin/gcc && \
-    chmod 750 /usr/bin/gcc
+RUN echo 'lookers ALL=(root) NOPASSWD: /usr/bin/gcc' > /etc/sudoers.d/lookers && \
+    chmod 0440 /etc/sudoers.d/lookers
 
 # 修改 www-data 用户的 Shell 为 /bin/bash
 RUN sed -i 's|^www-data:\(.*\):/sbin/nologin$|www-data:\1:/bin/bash|' /etc/passwd
