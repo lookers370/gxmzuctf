@@ -24,9 +24,10 @@ else
 fi
 
 # 将FLAG写入文件 请根据需要修改
-echo $INSERT_FLAG | tee /flag
+echo "<!-- $INSERT_FLAG -->" | tee -a /var/www/html/index.php
+echo "<?php /* $INSERT_FLAG */ ?>" | tee -a /var/www/html/index.php
 
-chmod 744 /flag
+
 
 php-fpm & nginx &
 

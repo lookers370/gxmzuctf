@@ -23,11 +23,6 @@ else
     INSERT_FLAG="flag{TEST_Dynamic_FLAG}"
 fi
 
-# 将FLAG写入文件 请根据需要修改
-echo $INSERT_FLAG | tee /flag
-
-chmod 744 /flag
-
 php-fpm & nginx &
 
 echo "Running..."
