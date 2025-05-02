@@ -5,11 +5,13 @@ RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.ustc.edu.cn/g' /etc/apk/repositorie
     apk add --update --no-cache bash gcc
 
 #创建lookers用户
-RUN adduser -D -h /home/lookers -s /bin/bash lookers 
+RUN addgroup gcc_users
+RUN adduser -D -h /home/lookers -s /bin/bash -G gcc_users lookers 
 RUN echo 'lookers:admin123' | chpasswd
 RUN chmod 4755 /bin/su
 
-
+RUN chown root:gcc_users /usr/bin/gcc && \
+    chmod 750 /usr/bin/gcc
 
 # 修改 www-data 用户的 Shell 为 /bin/bash
 RUN sed -i 's|^www-data:\(.*\):/sbin/nologin$|www-data:\1:/bin/bash|' /etc/passwd
