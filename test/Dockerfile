@@ -2,14 +2,13 @@ FROM ctftraining/base_image_nginx_mysql_php_73
 
 # 安装必要的软件包
 RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.ustc.edu.cn/g' /etc/apk/repositories  &&\
-    apk add --update --no-cache bash
+    apk add --update --no-cache bash gcc
 
-# 创建用户并设置密码
-RUN adduser -D lookers && \
-    echo "lookers:admin123" | chpasswd && \
-    # 配置 sudo 权限
-    echo 'lookers ALL=(root) NOPASSWD: /usr/bin/gcc' > /etc/sudoers.d/lookers && \
-    chmod 0440 /etc/sudoers.d/lookers
+#创建lookers用户
+RUN adduser -D -h /home/lookers -s /bin/bash lookers 
+RUN echo 'lookers:admin123' | chpasswd
+RUN chmod 4755 /bin/su
+
 
 
 # 修改 www-data 用户的 Shell 为 /bin/bash
