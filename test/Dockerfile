@@ -9,6 +9,7 @@ RUN sed -i \
     apk add --no-cache \
     gcc \
     bash  \
+    python3 \
     sudo \
     shadow && \
     # 安装后立即清理缓存
